@@ -1,15 +1,11 @@
-const PREDEFINEDRULES = [
-  [String.raw`(?:\d+(?:\.\d+)? )?USD`, String.raw`%p{:2}%sRAI`],
-  [String.raw`(?:\d+(?:\.\d+)? )?US Dollar`, String.raw`%p%sRAI`],
-  [String.raw`\$\d+`, String.raw`%p{:4}%sRAI`]
-]
-
 let mainToggle = document.getElementById("main-toggle"),
     ruleTable = document.getElementById("rule-table"),
     headerTitle = document.getElementById("header-title"),
     inputRegex = document.getElementById("input-regex"),
     inputReplace = document.getElementById("input-replace"),
-    inputBtnConfirm = document.getElementById("btn-confirm-rule");
+    inputBtnConfirm = document.getElementById("btn-confirm-rule"),
+    manualReplaceBtn = document.getElementById("btn-manual-replace"),
+    filterBtn = document.getElementById("btn-filter");
 
 async function getSyncData(key) {
   let p = new Promise(function(resolve, reject){
@@ -108,15 +104,29 @@ async function setEnabledRuleDataset(nid, enabled) {
 }
 
 function resetHeaderTitle(replaceCount = 0) {
-  if (mainToggle.checked) {
-    if (replaceCount > 0) {
-      headerTitle.innerHTML = `Running, Replaced <code>${replaceCount}</code> USDs on Current Page!`;
+  let title = "Checking...";
+  headerTitle.innerHTML = title;
+  chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
+    const filteredUrls = await getSyncData("filtered_url");
+    if (filteredUrls.includes(tabs[0].url)) {
+      title = "Stopped, This Webpage is Filtered!";
+      filterBtn.setAttribute("data-state", "unfilter");
+      filterBtn.innerText = "Un-filter This Webpage";
     } else {
-      headerTitle.innerText = `RAI Replacer is Running`;
+      if (mainToggle.checked) {
+        if (replaceCount > 0) {
+          title = `Running, Replaced <code>${replaceCount}</code> USDs on Current Page!`;
+        } else {
+          title = `RAI Replacer is Running`;
+        }
+      } else {
+        title = "RAI Replacer is Disabled";
+      }
+      filterBtn.setAttribute("data-state", "filter");
+      filterBtn.innerText = "Filter This Webpage";
     }
-  } else {
-    headerTitle.innerText = "RAI Replacer is Disabled";
-  }
+    headerTitle.innerHTML = title;
+  });
 }
 
 function addRowToTable(tbody, d) {
@@ -215,30 +225,37 @@ async function ruleConfirm(o) {
     await editRuleDataset(nid, regex, replace);
     updateTable(await getRuleDataset());
     o.setAttribute("data-state", "add");
-    inputBtnConfirm.innerText = "Confirm Adding";
+    o.innerText = "Confirm Adding";
   }
   inputRegex.value = "";
   inputReplace.value = "";
 }
 
-async function init() {
-  let first_time = await getSyncData("first_time"),
-      disabled = await getSyncData("disabled");
-  if (!first_time) {
-    await setSyncData("rules", []);
-    for (const rule of PREDEFINEDRULES) {
-      await addRuleDataset(rule[0], rule[1]);
+async function filterCurrentPage(o) {
+  let state = o.getAttribute("data-state");
+  chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
+    let filteredUrls = await getSyncData("filtered_url");
+    if (state === "filter") {
+      if (filteredUrls.includes(tabs[0].url)) {
+        return
+      }
+      filteredUrls.push(tabs[0].url);
+      await setSyncData("filtered_url", filteredUrls);
+      o.setAttribute("data-state", "unfilter");
+      o.innerText = "Un-filter This Webpage";
+    } else if (state === "unfilter") {
+      if (!filteredUrls.includes(tabs[0].url)) {
+        return
+      }
+      filteredUrls = filteredUrls.filter((obj) => {return obj !== tabs[0].url});
+      await setSyncData("filtered_url", filteredUrls);
+      o.setAttribute("data-state", "filter");
+      o.innerText = "Filter This Webpage";
     }
-    await setSyncData("first_time", true);
-  }
-
-  mainToggle.checked = !disabled;
-  resetHeaderTitle();
+  });
 }
 
 async function main() {
-  await init()
-
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {command: "popupOpened"}, function(response) {
       resetHeaderTitle(parseInt(response.replaceCount));
@@ -250,16 +267,22 @@ async function main() {
     resetHeaderTitle();
   });
 
-  document.getElementById("btn-confirm-rule").addEventListener("click", (event) => {
+  filterBtn.addEventListener("click", (event) => {
+    filterCurrentPage(event.target);
+  })
+
+  inputBtnConfirm.addEventListener("click", (event) => {
     ruleConfirm(event.target);
   })
 
-  document.getElementById("btn-manual-replace").addEventListener('click', function () {
+  manualReplaceBtn.addEventListener('click', function () {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {command: "replace"}, function(response) {console.log(response)});
     });
   }, false);
 
+  mainToggle.checked = !(await getSyncData("disabled"));
+  resetHeaderTitle();
   updateTable(await getRuleDataset());
 }
 

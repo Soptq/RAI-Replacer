@@ -23,5 +23,9 @@
       "matches": ["http://*/*", "https://*/*"],
       "js": ["axios.js","main.js"]
     }
-  ]
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  }
 }

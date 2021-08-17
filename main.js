@@ -123,9 +123,12 @@ chrome.runtime.onMessage.addListener(
 );
 
 (async function () {
-  chrome.storage.sync.get('disabled', function(value) {
-    if (!value.disabled) {
-      fullPageReplace()
-    }
+  chrome.storage.sync.get('disabled', function(value1) {
+    chrome.storage.sync.get('filtered_url', function(value2) {
+      const isFiltered = value2.filtered_url.includes(location.href);
+      if (!value1.disabled && !isFiltered) {
+        fullPageReplace()
+      }
+    });
   });
 })()
