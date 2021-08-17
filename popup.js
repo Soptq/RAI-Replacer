@@ -1,7 +1,7 @@
 const PREDEFINEDRULES = [
-  [String.raw`(?:\d+(?:\.\d+)? )?USD`, String.raw`%p%sRAI`],
+  [String.raw`(?:\d+(?:\.\d+)? )?USD`, String.raw`%p{:2}%sRAI`],
   [String.raw`(?:\d+(?:\.\d+)? )?US Dollar`, String.raw`%p%sRAI`],
-  [String.raw`\$\d+`, String.raw`%p%sRAI`]
+  [String.raw`\$\d+`, String.raw`%p{:4}%sRAI`]
 ]
 
 let mainToggle = document.getElementById("main-toggle"),

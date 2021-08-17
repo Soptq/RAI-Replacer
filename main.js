@@ -31,12 +31,28 @@ function textNode(txt) {
 }
 
 function parse(str) {
+  debugger
   let args = [].slice.call(arguments, 1),
-      i = 0;
+      i = 0, pRegex = /%p(?:{:(\d+)})?/ig;
   if (args != null && args.length > 0) {
-    return str.replace(/%p/g, () => args[i++]).replace(/%s/g, " ");
+    let num = args[0], m, numList = [];
+    while ((m = pRegex.exec(str)) !== null) {
+      if (m.index === pRegex.lastIndex) {
+        pRegex.lastIndex++;
+      }
+      m.forEach((match, groupIndex) => {
+        if (match === undefined) {
+          numList.push(num.toFixed(3));
+        } else {
+          if (!match.startsWith("%")) {
+            numList.push(num.toFixed(parseInt(match)));
+          }
+        }
+      });
+    }
+    return str.replace(pRegex, () => numList[i++].toString()).replace(/%s/g, " ");
   } else {
-    return str.replace(/%p/g, "").replace(/%s/g, "");
+    return str.replace(pRegex, "").replace(/%s/g, "");
   }
 }
 
@@ -51,8 +67,8 @@ function regexExtractAndReplace(text, rule, price) {
       if (numMatched == null || numMatched.length < 0) {
         extractedList.push(parse(rule[1]))
       } else {
-        let num = (parseFloat(numMatched[0]) / price).toFixed(3);
-        extractedList.push(parse(rule[1], num.toString()));
+        let num = (parseFloat(numMatched[0]) / price);
+        extractedList.push(parse(rule[1], num));
       }
     })
   }
@@ -95,7 +111,6 @@ async function fullPageReplace() {
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      debugger
       if (request.command === "replace") {
         fullPageReplace();
         sendResponse({execute: true});
