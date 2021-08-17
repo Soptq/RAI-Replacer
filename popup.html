@@ -1,0 +1,51 @@
+<link href="popup.css" rel="stylesheet">
+
+<div class="main">
+  <div class="header-group">
+    <span id="header-title"></span>
+    <label class="switch">
+      <input id="main-toggle" type="checkbox" checked="checked">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <hr>
+  <p class="hint">Sometime the webpage can take a while to load, and when it is loaded, you may want to do USD replacing manually by pressing:</p>
+  <button class="button" id="btn-manual-replace">Manually Replace</button>
+  <hr>
+  <div class="rule-wrapper">
+    <div class="mat-list card scrollable">
+      <table class="rule-table" id="rule-table">
+        <thead>
+        <tr>
+          <th class="td-state"></th>
+          <th class="td-regex">Regex</th>
+          <th class="td-icon"></th>
+          <th class="td-replace">Replacement</th>
+          <th class="td-command" colspan="4">
+            Commands
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div class="mat-list-operate">
+      <div class="control-group">
+        <input id="input-regex" type="text" name="input" placeholder="(?:\d+(?:\.\d+)? )?USD" />
+        <label for="input-regex">Regex</label>
+      </div>
+      <div class="control-group">
+        <input id="input-replace" type="text" name="input" placeholder="%p%sRAI" />
+        <label for="input-replace">Replacement</label>
+      </div>
+      <button class="button" data-state="add" data-edit-id="" style="margin-top: 10px" id="btn-confirm-rule">Confirm Adding</button>
+    </div>
+  </div>
+  <h4 class="hint">How to use rules?</h4>
+  <p class="hint">Basically you need to input a regex that helps the extension to locate USD, and a replacement that helps the extension understand how to replace. The inputted regex is just like regular regex, you can test your regex at <a href="https://regex101.com/">Regex101</a>. On the other hand, the replacement is a string with format specifiers <code>%p</code> and <code>%s</code>, where <code>%p</code> will be the converted price and <code>%s</code> will be smart whitespace after formatting. Notice that the regex doesn't need any capturing group, the only missing of it is to extract the whole string with/without number.</p>
+  <p class="hint">Commands: <span>&#9998;</span> stands for rule editing, <span>&#128465;</span> stands for rule deleting, <span>&#x2191;</span> and <span>&#x2193;</span> stand for rule priority setting (executing from top to down).</p>
+  <hr>
+</div>
+
+<script src="popup.js"></script>

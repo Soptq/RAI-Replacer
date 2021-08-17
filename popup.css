@@ -1,0 +1,312 @@
+html{
+  background-color: #fff;
+}
+
+.main {
+  width: 500px;
+  position: relative;
+  overflow-y: scroll;
+}
+
+.main::-webkit-scrollbar {
+  display: none;
+}
+
+.header-group {
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+  line-height: 34px;
+}
+
+#header-title {
+  line-height: 34px;
+  font-size: 16px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-right: 10px;
+  float: right;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #1fc9a7;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #1fc9a7;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.button {
+  cursor: pointer;
+  background-color: #1fc9a7;
+  border: none;
+  color: white;
+  width: 100%;
+  height: 34px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.button:active {
+  background-color: #18a185;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+code {
+  color: #c7254e;
+  font-weight: bold;
+}
+
+table td, table th {
+  padding:5px;
+}
+
+.hint {
+  color: gray;
+}
+
+.rule-wrapper{
+  width:100%;
+  margin-top: 20px;
+}
+
+.card{
+  background-color: #f4f4f4;
+  overflow:auto;
+}
+
+.mat-list{
+  list-style-type: none;
+  display:block;
+  height: 250px;
+}
+
+.mat-list-operate{
+  margin-top: 20px;
+  list-style-type: none;
+  display:block;
+}
+
+.rule-table {
+  table-layout: fixed;
+  line-height: 30px;
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+.rule-table td {
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+}
+
+.rule-table .td-state {
+  width: auto;
+}
+
+.rule-table .td-regex {
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rule-table .td-replace {
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rule-table .td-icon {
+  width: 10px;
+}
+
+.rule-table .td-command {
+  width: auto;
+}
+
+.rule-table .td-edit {
+  cursor: pointer;
+}
+
+.rule-table .td-delete {
+  cursor: pointer;
+}
+
+.rule-table .td-up {
+  cursor: pointer;
+}
+
+.rule-table .td-down {
+  cursor: pointer;
+}
+
+.rule-table tr:first-child td {
+  border-top: 0;
+}
+.rule-table tr td:first-child {
+  border-left: 0;
+}
+.rule-table tr:last-child td {
+  border-bottom: 0;
+}
+.rule-table tr td:last-child {
+  border-right: 0;
+}
+
+.control-group {
+  padding-top: 11px;
+  position: relative;
+}
+
+.control-group input[type="text"] {
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border: 2px solid #9fa6b3;
+  background: #fff;
+  border-radius: 0;
+  color: #222;
+  font-size: 12px;
+  font-weight: 400;
+  outline: none;
+  padding: 23px 2px 2px 2px;
+  transition-property: border, padding;
+  transition-duration: 500ms;
+  transition-timing-function: ease;
+  width: 100%;
+}
+
+.control-group input[type="text"]:focus {
+  border-color: #18a185;
+  padding-bottom: 13px;
+  padding-top: 16px;
+}
+
+.control-group input[type="text"] + label {
+  background: #9fa6b3;
+  color: #fff;
+  font-weight: 500;
+  left: 0;
+  padding: 5px 5px 5px 5px;
+  position: absolute;
+  top: 11px;
+  transition-property: top, background;
+  transition-duration: 500ms;
+  transition-timing-function: ease;
+}
+
+.control-group input[type="text"]:focus + label {
+  background: #18a185;
+  top: 0;
+}
+
+.container-checkbox {
+  margin-left: 5px;
+  display: block;
+  position: relative;
+  margin-bottom: 14px;
+  cursor: pointer;
+  font-size: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.container-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  background-color: #eee;
+}
+
+.container-checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.container-checkbox input:checked ~ .checkmark {
+  background-color: #18a185;
+}
+
+.container-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container-checkbox .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
