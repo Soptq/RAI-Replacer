@@ -2,7 +2,7 @@
 
 # RAI-Replacer
 
-RAI-Replacer is a chrome/firefox extension that automatically replace all USD alike string (e.g. `USD`, `US Dollar`, `$`) on a webpage to `RAI` (Reflexer Labs).
+RAI-Replacer is a chrome/firefox extension that automatically replace all USD-like string (e.g. `USD`, `US Dollar`, `$`) on a webpage to `RAI` (Reflexer Labs).
 
 Features:
 * Light-weighted and fast. ⚡️

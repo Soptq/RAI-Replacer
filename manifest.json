@@ -1,8 +1,8 @@
 {
   "name": "RAI Replacer",
-  "description": "Replace every USD alike to RAI!",
+  "description": "Replace every USD-like to RAI!",
   "author": "Soptq",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "manifest_version": 2,
   "permissions": [
     "activeTab",
