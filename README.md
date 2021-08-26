@@ -17,6 +17,10 @@ Features:
 
 Any suggestion or possible improvement on this project would be appreciated! You can contact me by creating an issue.
 
+## Install to your Chrome browser (Chrome WebStore)
+
+[Download](https://chrome.google.com/webstore/detail/rai-replacer/kodhlhjldpngjbahemaojdgdoikemich?hl=zh-CN&authuser=0)
+
 ## How to use user-defined rules?
 
 Basically you need to input a regex that helps the extension to locate USD, and a replacement that helps the extension understand how to replace. The inputted regex is just like regular regex, you can test your regex at <a href="https://regex101.com/">Regex101</a>. On the other hand, the replacement is a string with format specifiers <code>%p</code> and <code>%s</code>, where <code>%p</code> will be the converted price and <code>%s</code> will be smart whitespace after formatting. You can specify the number of decimal places by using <code>%p{:N}</code> (e.g. <code>%p{:2}</code>, default is 3). Notice that the regex doesn't need any capturing group, the only mission of it is to extract the whole string with/without number.
